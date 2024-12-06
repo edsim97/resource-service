@@ -119,6 +119,7 @@
 				</configuration>
 			</plugin>
 		</plugins>
+		<finalName>resource-service</finalName>
 	</build>
 
 </project>
