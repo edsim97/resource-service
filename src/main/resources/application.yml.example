@@ -1,3 +1,13 @@
 spring:
   application:
     name: resource-service
+  datasource:
+    url: jdbc:postgresql://localhost:5432/resources
+    username: postgres
+    password: postgres
+  flyway:
+    url: jdbc:postgresql://localhost:5432/resources
+    user: postgres
+    password: postgres
+    schemas: public
+    locations: classpath:migrations
