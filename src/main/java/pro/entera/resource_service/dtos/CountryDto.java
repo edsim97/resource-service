@@ -1,39 +1,27 @@
-package pro.entera.resource_service.models;
+package pro.entera.resource_service.dtos;
 
-
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import pro.entera.resource_service.models.Country;
 
-/**
- * <p>Страна по ОКСМ, находящаяся в нашем справочнике.</p>
- */
 @AllArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Getter
-@Builder(toBuilder = true)
-@Entity
-@Table(name = "country")
-public class Country {
-    //Fields
+@Builder
+public class CountryDto {
+    //region Fields
 
     /**
      * <p>Трехзначный (альфа-3) буквенный код страны, состоящий из букв латинского алфавита.</p>
      */
-    @Id
     @EqualsAndHashCode.Include
-    @Column(name = "alpha_3_code")
     private final String alpha3Code;
 
     /**
      * <p>Двухзначный (альфа-2) буквенный код страны, состоящий из букв латинского алфавита.</p>
      */
-    @Column(name = "alpha_2_code")
     private final String alpha2Code;
 
     /**
@@ -55,6 +43,21 @@ public class Country {
      * <p>Английское название страны.</p>
      */
     private final String nameEng;
+
+    //endregion
+    //region Static factories
+
+    public static CountryDto from(Country country) {
+
+        return new CountryDto(
+            country.getAlpha3Code(),
+            country.getAlpha2Code(),
+            country.getCode(),
+            country.getShortName(),
+            country.getFullName(),
+            country.getNameEng()
+        );
+    }
 
     //endregion
 }

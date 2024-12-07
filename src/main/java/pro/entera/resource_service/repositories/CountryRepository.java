@@ -20,16 +20,7 @@ public interface CountryRepository extends JpaRepository<Country, String> {
      *
      * @return Страна в классификаторе ОКСМ.
      */
-    Optional<Country> getByCode(String code);
-
-    /**
-     * <p>Находит и возвращает страну по альфа-3-коду.</p>
-     *
-     * @param alpha3Code Код страны.
-     *
-     * @return Страна.
-     */
-    Optional<Country> findByAlpha3Code(String alpha3Code);
+    Optional<Country> findByCode(String code);
 
     //endregion
 }
