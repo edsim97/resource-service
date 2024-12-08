@@ -34,7 +34,7 @@ public interface BankKazRepository extends JpaRepository<BankKaz, UUID> {
      *
      * @throws NonUniqueResultException Если по БИК'у найдено болеее одного банка Казахстана.
      */
-    Optional<BankKaz> findByBIC(String bic);
+    Optional<BankKaz> findByBic(String bic);
 
     /**
      * Поиск не аннулированных банков Казахстана в текущей базе.</p>

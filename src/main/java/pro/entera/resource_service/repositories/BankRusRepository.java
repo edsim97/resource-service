@@ -23,7 +23,7 @@ public interface BankRusRepository extends JpaRepository<BankRus, UUID> {
      *
      * @throws NonUniqueResultException Если по БИК'у найдено болеее одного банка.
      */
-    Optional<BankRus> findByBIC(String bic);
+    Optional<BankRus> findByBic(String bic);
 
     /**
      * <p>Поиск не аннулированных банков в текущей базе.</p>
