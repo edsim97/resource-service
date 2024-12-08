@@ -1,5 +1,6 @@
 package pro.entera.resource_service.services;
 
+import pro.entera.resource_service.dtos.UnitDto;
 import pro.entera.resource_service.models.Unit;
 
 import java.util.List;
@@ -31,13 +32,14 @@ public interface UnitService {
      *
      * @return Эталонная единица измерения из справочника.
      */
-    default Unit findUnit(String unitCode, String unitName) {
+    default UnitDto findUnit(String unitCode, String unitName) {
 
         return Optional.ofNullable(unitCode)
             .map(this::findByOkeiCode)
             .or(() -> Optional.ofNullable(unitName)
                 .map(this::findByNameOrSynonym)
             )
+            .map(UnitDto::from)
             .orElse(null);
     }
 
