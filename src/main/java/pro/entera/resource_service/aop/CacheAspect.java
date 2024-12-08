@@ -1,5 +1,6 @@
 package pro.entera.resource_service.aop;
 
+import lombok.NonNull;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -44,15 +45,21 @@ public class CacheAspect {
         return result;
     }
 
+    public void clearCache(@NonNull String cacheNamePrefix) {
+
+        this.cache.replaceAll((key, value) -> key.startsWith(cacheNamePrefix) ? null : value);
+    }
+
     //endregion
     //region Private
 
     private String generateKey(ProceedingJoinPoint joinPoint, Cacheable cacheable) {
 
+        final String prefix = cacheable.namePrefix().isEmpty() ? "" : cacheable.namePrefix() + "-";
         final String signature = joinPoint.getSignature().toLongString();
         final String args = String.join("-", Arrays.toString(joinPoint.getArgs()));
 
-        return signature + "-" + args;
+        return prefix + signature + "-" + args;
     }
 
     //endregion

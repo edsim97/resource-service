@@ -30,14 +30,14 @@ public class UnitServiceImpl implements UnitService {
     //region Public
 
 
-    @Cacheable(ttl = 24 * 60 * 60)
+    @Cacheable(ttl = 24 * 60 * 60, namePrefix = "unit")
     @Override
     public List<Unit> findAll() {
 
         return this.unitRepository.findAll();
     }
 
-    @Cacheable(ttl = 24 * 60 * 60)
+    @Cacheable(ttl = 24 * 60 * 60, namePrefix = "unit")
     @Override
     public Unit findByOkeiCode(String unitCode) {
 
@@ -46,7 +46,7 @@ public class UnitServiceImpl implements UnitService {
         return this.unitRepository.findByCode(formattedOkeiCode).orElse(null);
     }
 
-    @Cacheable(ttl = 24 * 60 * 60)
+    @Cacheable(ttl = 24 * 60 * 60, namePrefix = "unit")
     @Override
     public Unit findByName(String name) {
 

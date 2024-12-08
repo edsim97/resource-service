@@ -19,7 +19,7 @@ public class CountryServiceImpl implements CountryService {
     //region Public
 
     @Override
-    @Cacheable(ttl = 24 * 60 * 60)
+    @Cacheable(ttl = 24 * 60 * 60, namePrefix = "country")
     public CountryDto findByAlpha3Code(String alpha3Code) {
 
         return this.countryRepository.findById(alpha3Code)
@@ -28,7 +28,7 @@ public class CountryServiceImpl implements CountryService {
     }
 
     @Override
-    @Cacheable(ttl = 24 * 60 * 60)
+    @Cacheable(ttl = 24 * 60 * 60, namePrefix = "country")
     public CountryDto findByOksmCode(String code) {
 
         return this.countryRepository.findByCode(code)
@@ -37,7 +37,7 @@ public class CountryServiceImpl implements CountryService {
     }
 
     @Override
-    @Cacheable(ttl = 24 * 60 * 60)
+    @Cacheable(ttl = 24 * 60 * 60, namePrefix = "country")
     public List<CountryDto> findAll() {
 
         return this.countryRepository.findAll()

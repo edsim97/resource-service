@@ -19,7 +19,7 @@ public class CurrencyServiceImpl implements CurrencyService {
     //region Public
 
     @Override
-    @Cacheable(ttl = 24 * 60 * 60)
+    @Cacheable(ttl = 24 * 60 * 60, namePrefix = "currency")
     public CurrencyDto findByAlpha3Code(String alpha3Code) {
 
         return this.currencyRepository.findById(alpha3Code)
@@ -28,7 +28,7 @@ public class CurrencyServiceImpl implements CurrencyService {
     }
 
     @Override
-    @Cacheable(ttl = 24 * 60 * 60)
+    @Cacheable(ttl = 24 * 60 * 60, namePrefix = "currency")
     public List<CurrencyDto> findAll() {
 
         return this.currencyRepository.findAll()

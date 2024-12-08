@@ -10,4 +10,6 @@ import java.lang.annotation.Target;
 public @interface Cacheable {
 
     long ttl() default 0;
+
+    String namePrefix() default "";
 }

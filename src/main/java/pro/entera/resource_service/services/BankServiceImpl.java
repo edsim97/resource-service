@@ -37,14 +37,14 @@ public class BankServiceImpl implements BankService {
     //endregion
     //region Public
 
-    @Cacheable
+    @Cacheable(ttl = 24 * 60 * 60, namePrefix = "bank")
     @Override
     public List<BankRus> findAllRus() {
 
         return this.bankRusRepository.findAll();
     }
 
-    @Cacheable
+    @Cacheable(ttl = 24 * 60 * 60, namePrefix = "bank")
     @Override
     public List<BankKaz> findAllKaz() {
 
@@ -61,13 +61,13 @@ public class BankServiceImpl implements BankService {
             banks = List.of();
         } else if (KAZ_COUNTRY_CODE.equals(countryCode)) {
 
-            banks = this.findBankKazlist(searchString)
+            banks = this.findBankKazList(searchString)
                 .stream()
                 .map(BankDto::from)
                 .toList();
         } else {
 
-            banks = this.findBankRuslist(searchString)
+            banks = this.findBankRusList(searchString)
                 .stream()
                 .map(BankDto::from)
                 .toList();
@@ -98,7 +98,7 @@ public class BankServiceImpl implements BankService {
     //endregion
     //region Private
 
-    private List<BankRus> findBankRuslist(String searchString) {
+    private List<BankRus> findBankRusList(String searchString) {
 
         Predicate<BankRus> searchPredicate = createStringFieldSearchPredicate(BankRus::getName, searchString)
             .or((createStringFieldSearchPredicate(BankRus::getBic, searchString)))
@@ -112,7 +112,7 @@ public class BankServiceImpl implements BankService {
             .toList();
     }
 
-    private List<BankKaz> findBankKazlist(String searchString) {
+    private List<BankKaz> findBankKazList(String searchString) {
 
         Predicate<BankKaz> searchPredicate = createStringFieldSearchPredicate(BankKaz::getName, searchString)
             .or((createStringFieldSearchPredicate(BankKaz::getBic, searchString)))
