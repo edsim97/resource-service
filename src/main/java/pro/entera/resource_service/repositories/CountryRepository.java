@@ -7,14 +7,14 @@ import pro.entera.resource_service.models.Country;
 import java.util.Optional;
 
 /**
- * <p>Репозиторий для доступа к модели {@link Country}.</p>
+ * Репозиторий для доступа к модели {@link Country}.
  */
 @Repository
 public interface CountryRepository extends JpaRepository<Country, String> {
     //region Public
 
     /**
-     * <p>Возвращает страну в классификаторе ОКСМ по коду ОКСМ.</p>
+     * Возвращает страну в классификаторе ОКСМ по коду ОКСМ.
      *
      * @param code Код ОКСМ.
      *

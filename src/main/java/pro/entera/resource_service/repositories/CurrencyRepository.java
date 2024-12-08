@@ -5,7 +5,7 @@ import org.springframework.stereotype.Repository;
 import pro.entera.resource_service.models.Currency;
 
 /**
- * <p>Репозиторий для доступа к модели {@link Currency}.</p>
+ * Репозиторий для доступа к модели {@link Currency}.
  */
 @Repository
 public interface CurrencyRepository extends JpaRepository<Currency, String> { }

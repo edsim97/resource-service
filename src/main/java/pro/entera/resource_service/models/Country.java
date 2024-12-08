@@ -11,7 +11,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 /**
- * <p>Страна по ОКСМ, находящаяся в нашем справочнике.</p>
+ * Страна по ОКСМ, находящаяся в нашем справочнике.
  */
 @AllArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
@@ -23,7 +23,7 @@ public class Country {
     //Fields
 
     /**
-     * <p>Трехзначный (альфа-3) буквенный код страны, состоящий из букв латинского алфавита.</p>
+     * Трехзначный (альфа-3) буквенный код страны, состоящий из букв латинского алфавита.
      */
     @Id
     @EqualsAndHashCode.Include
@@ -31,28 +31,28 @@ public class Country {
     private final String alpha3Code;
 
     /**
-     * <p>Двухзначный (альфа-2) буквенный код страны, состоящий из букв латинского алфавита.</p>
+     * Двухзначный (альфа-2) буквенный код страны, состоящий из букв латинского алфавита.
      */
     @Column(name = "alpha_2_code")
     private final String alpha2Code;
 
     /**
-     * <p>Трехзначный цифровой код ОКСМ.</p>
+     * Трехзначный цифровой код ОКСМ.
      */
     private final String code;
 
     /**
-     * <p>Краткое наименование страны.</p>
+     * Краткое наименование страны.
      */
     private final String shortName;
 
     /**
-     * <p>Полное наименование страны.</p>
+     * Полное наименование страны.
      */
     private final String fullName;
 
     /**
-     * <p>Английское название страны.</p>
+     * Английское название страны.
      */
     private final String nameEng;
 

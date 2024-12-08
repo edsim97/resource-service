@@ -10,7 +10,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 /**
- * <p>Валюта.</p>
+ * Валюта.
  */
 @AllArgsConstructor
 @Getter
@@ -22,7 +22,7 @@ public class Currency {
     //Fields
 
     /**
-     * <p>Трехзначный (альфа-3) буквенный код валюты, состоящий из латинского алфавита.</p>
+     * Трехзначный (альфа-3) буквенный код валюты, состоящий из латинского алфавита.
      */
     @Id
     @EqualsAndHashCode.Include
@@ -30,17 +30,17 @@ public class Currency {
     private final String alpha3Code;
 
     /**
-     * <p>Трехзначный цифровой код ISO-4217.</p>
+     * Трехзначный цифровой код ISO-4217.
      */
     private final String numCode;
 
     /**
-     * <p>Наименование валюты на русском языке.</p>
+     * Наименование валюты на русском языке.
      */
     private final String nameRus;
 
     /**
-     * <p>Наименование валюты на английском языке.</p>
+     * Наименование валюты на английском языке.
      */
     private final String nameEng;
 
