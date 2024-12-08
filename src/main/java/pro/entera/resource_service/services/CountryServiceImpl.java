@@ -2,6 +2,7 @@ package pro.entera.resource_service.services;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import pro.entera.resource_service.aop.Cacheable;
 import pro.entera.resource_service.dtos.CountryDto;
 import pro.entera.resource_service.repositories.CountryRepository;
 
@@ -18,6 +19,7 @@ public class CountryServiceImpl implements CountryService {
     //region Public
 
     @Override
+    @Cacheable(ttl = 24 * 60 * 60)
     public CountryDto findByAlpha3Code(String alpha3Code) {
 
         return this.countryRepository.findById(alpha3Code)
@@ -26,6 +28,7 @@ public class CountryServiceImpl implements CountryService {
     }
 
     @Override
+    @Cacheable(ttl = 24 * 60 * 60)
     public CountryDto findByOksmCode(String code) {
 
         return this.countryRepository.findByCode(code)
@@ -34,6 +37,7 @@ public class CountryServiceImpl implements CountryService {
     }
 
     @Override
+    @Cacheable(ttl = 24 * 60 * 60)
     public List<CountryDto> findAll() {
 
         return this.countryRepository.findAll()

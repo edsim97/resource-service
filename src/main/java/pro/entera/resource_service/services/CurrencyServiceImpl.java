@@ -2,6 +2,7 @@ package pro.entera.resource_service.services;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import pro.entera.resource_service.aop.Cacheable;
 import pro.entera.resource_service.dtos.CurrencyDto;
 import pro.entera.resource_service.repositories.CurrencyRepository;
 
@@ -18,6 +19,7 @@ public class CurrencyServiceImpl implements CurrencyService {
     //region Public
 
     @Override
+    @Cacheable(ttl = 24 * 60 * 60)
     public CurrencyDto findByAlpha3Code(String alpha3Code) {
 
         return this.currencyRepository.findById(alpha3Code)
@@ -26,6 +28,7 @@ public class CurrencyServiceImpl implements CurrencyService {
     }
 
     @Override
+    @Cacheable(ttl = 24 * 60 * 60)
     public List<CurrencyDto> findAll() {
 
         return this.currencyRepository.findAll()
