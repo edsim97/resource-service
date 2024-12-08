@@ -3,7 +3,7 @@ package pro.entera.resource_service.services;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import pro.entera.resource_service.aop.Cacheable;
-import pro.entera.resource_service.converters.BankKazConverter;
+import pro.entera.resource_service.dtos.BankDto;
 import pro.entera.resource_service.models.BankKaz;
 import pro.entera.resource_service.models.BankRus;
 import pro.entera.resource_service.repositories.BankKazRepository;
@@ -34,8 +34,6 @@ public class BankServiceImpl implements BankService {
 
     private final BankRusRepository bankRusRepository;
 
-    private final BankKazConverter bankKazConverter;
-
     //endregion
     //region Public
 
@@ -54,9 +52,9 @@ public class BankServiceImpl implements BankService {
     }
 
     @Override
-    public List<BankRus> find(String searchString, String countryCode) {
+    public List<BankDto> find(String searchString, String countryCode) {
 
-        final List<BankRus> banks;
+        final List<BankDto> banks;
 
         if (searchString == null || searchString.length() < MIN_SEARCH_LENGTH) {
 
@@ -65,11 +63,14 @@ public class BankServiceImpl implements BankService {
 
             banks = this.findBankKazlist(searchString)
                 .stream()
-                .map(this.bankKazConverter::toBankRus)
+                .map(BankDto::from)
                 .toList();
         } else {
 
-            banks = this.findBankRuslist(searchString);
+            banks = this.findBankRuslist(searchString)
+                .stream()
+                .map(BankDto::from)
+                .toList();
         }
 
         return banks;

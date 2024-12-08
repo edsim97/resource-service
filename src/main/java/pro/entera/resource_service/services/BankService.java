@@ -1,5 +1,6 @@
 package pro.entera.resource_service.services;
 
+import pro.entera.resource_service.dtos.BankDto;
 import pro.entera.resource_service.models.BankKaz;
 import pro.entera.resource_service.models.BankRus;
 
@@ -33,7 +34,7 @@ public interface BankService {
      *
      * @return Список банков, которые подошли под поисковой запрос.
      */
-    List<BankRus> find(String searchString, String countryCode);
+    List<BankDto> find(String searchString, String countryCode);
     
     //endregion
 }
