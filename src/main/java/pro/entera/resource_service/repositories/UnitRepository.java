@@ -1,19 +1,18 @@
 package pro.entera.resource_service.repositories;
 
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.repository.reactive.ReactiveCrudRepository;
 import org.springframework.stereotype.Repository;
 import pro.entera.resource_service.models.Unit;
-
-import java.util.Optional;
+import reactor.core.publisher.Mono;
 
 /**
  * Репозиторий для доступа к модели {@link Unit}.
  */
 @Repository
-public interface UnitRepository extends JpaRepository<Unit, String> {
+public interface UnitRepository extends ReactiveCrudRepository<Unit, String> {
     //region Public
 
-    Optional<Unit> findByName(String name);
+    Mono<Unit> findByName(String name);
 
     /**
      * Возвращает страну в классификаторе ОКСМ по коду ОКСМ.
@@ -22,7 +21,7 @@ public interface UnitRepository extends JpaRepository<Unit, String> {
      *
      * @return Страна в классификаторе ОКСМ.
      */
-    Optional<Unit> findByCode(String code);
+    Mono<Unit> findByCode(String code);
 
     //endregion
 }

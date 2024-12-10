@@ -2,15 +2,15 @@ package pro.entera.resource_service.services;
 
 
 import pro.entera.resource_service.dtos.CurrencyDto;
-
-import java.util.List;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 public interface CurrencyService {
     //region public
 
-    CurrencyDto findByAlpha3Code(String alpha3Code);
+    Mono<CurrencyDto> findByAlpha3Code(String alpha3Code);
 
-    List<CurrencyDto> findAll();
+    Flux<CurrencyDto> findAll();
 
     //endregion
 }

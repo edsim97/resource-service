@@ -2,11 +2,10 @@ package pro.entera.resource_service.services;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import pro.entera.resource_service.aop.Cacheable;
 import pro.entera.resource_service.dtos.CurrencyDto;
 import pro.entera.resource_service.repositories.CurrencyRepository;
-
-import java.util.List;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 @AllArgsConstructor
 @Service
@@ -19,22 +18,15 @@ public class CurrencyServiceImpl implements CurrencyService {
     //region Public
 
     @Override
-    @Cacheable(ttl = 24 * 60 * 60, namePrefix = "currency")
-    public CurrencyDto findByAlpha3Code(String alpha3Code) {
+    public Mono<CurrencyDto> findByAlpha3Code(String alpha3Code) {
 
-        return this.currencyRepository.findById(alpha3Code)
-            .map(CurrencyDto::from)
-            .orElse(null);
+        return this.currencyRepository.findById(alpha3Code).map(CurrencyDto::from);
     }
 
     @Override
-    @Cacheable(ttl = 24 * 60 * 60, namePrefix = "currency")
-    public List<CurrencyDto> findAll() {
+    public Flux<CurrencyDto> findAll() {
 
-        return this.currencyRepository.findAll()
-            .stream()
-            .map(CurrencyDto::from)
-            .toList();
+        return this.currencyRepository.findAll().map(CurrencyDto::from);
     }
 
     //endregion

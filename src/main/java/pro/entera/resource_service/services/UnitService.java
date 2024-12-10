@@ -2,25 +2,23 @@ package pro.entera.resource_service.services;
 
 import pro.entera.resource_service.dtos.UnitDto;
 import pro.entera.resource_service.models.Unit;
-
-import java.util.List;
-import java.util.Optional;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 public interface UnitService {
     //region Public
 
-    List<Unit> findAll();
+    Flux<Unit> findAll();
 
     /**
      * Возвращает эталонную единицу измерения из кеша по ее коду ОКЕИ.
      *
      * @param unitCode Код единицы измерения в ОКЕИ.
-     *
      * @return Единица измерения.
      */
-    Unit findByOkeiCode(String unitCode);
+    Mono<Unit> findByOkeiCode(String unitCode);
 
-    Unit findByName(String name);
+    Mono<Unit> findByName(String name);
 
     /**
      * Возвращает эталонную единицу измерения для указанного кода единицы измерения или синонима ед. изм.
@@ -32,15 +30,14 @@ public interface UnitService {
      *
      * @return Эталонная единица измерения из справочника.
      */
-    default UnitDto findUnit(String unitCode, String unitName) {
+    default Mono<UnitDto> findUnit(String unitCode, String unitName) {
 
-        return Optional.ofNullable(unitCode)
-            .map(this::findByOkeiCode)
-            .or(() -> Optional.ofNullable(unitName)
-                .map(this::findByNameOrSynonym)
+        return Mono.justOrEmpty(unitCode)
+            .flatMap(this::findByOkeiCode)
+            .switchIfEmpty(
+                Mono.justOrEmpty(unitName).flatMap(this::findByNameOrSynonym)
             )
-            .map(UnitDto::from)
-            .orElse(null);
+            .map(UnitDto::from);
     }
 
     /**
@@ -51,14 +48,14 @@ public interface UnitService {
      *
      * @return Единица измерения.
      */
-    default Unit findByNameOrSynonym(String unitName) {
+    default Mono<Unit> findByNameOrSynonym(String unitName) {
 
-        return Optional.ofNullable(this.findByName(unitName))
-            .or(() -> this.findAll().stream()
-                .filter((Unit unit) -> unit.isSynonymous(unitName))
-                .findFirst()
-            )
-            .orElse(null);
+        return this.findByName(unitName)
+            .switchIfEmpty(
+                this.findAll()
+                    .filter((Unit unit) -> unit.isSynonymous(unitName))
+                    .next()
+            );
     }
 
     //endregion

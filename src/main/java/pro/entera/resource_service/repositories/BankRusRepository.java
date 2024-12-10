@@ -1,17 +1,16 @@
 package pro.entera.resource_service.repositories;
 
-import org.hibernate.NonUniqueResultException;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.repository.reactive.ReactiveCrudRepository;
 import pro.entera.resource_service.models.BankRus;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
-import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 /**
  * <p>Интерфейс репозитория для доступа к модели {@link BankRus}.</p>
  */
-public interface BankRusRepository extends JpaRepository<BankRus, UUID> {
+public interface BankRusRepository extends ReactiveCrudRepository<BankRus, UUID> {
     //region Public
 
     /**
@@ -20,10 +19,8 @@ public interface BankRusRepository extends JpaRepository<BankRus, UUID> {
      * @param bic БИК банка.
      *
      * @return Эталонный банк.
-     *
-     * @throws NonUniqueResultException Если по БИК'у найдено болеее одного банка.
      */
-    Optional<BankRus> findByBic(String bic);
+    Mono<BankRus> findByBic(String bic);
 
     /**
      * <p>Поиск не аннулированных банков в текущей базе.</p>
@@ -32,7 +29,7 @@ public interface BankRusRepository extends JpaRepository<BankRus, UUID> {
      *
      * @return Список не аннулированных банков.
      */
-    List<BankRus> findByAnnullingDateIsNull();
+    Flux<BankRus> findByAnnullingDateIsNull();
 
     //endregion
 }

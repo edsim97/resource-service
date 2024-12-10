@@ -2,15 +2,14 @@ package pro.entera.resource_service.services;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import pro.entera.resource_service.aop.Cacheable;
 import pro.entera.resource_service.dtos.BankDto;
 import pro.entera.resource_service.models.BankKaz;
 import pro.entera.resource_service.models.BankRus;
 import pro.entera.resource_service.repositories.BankKazRepository;
 import pro.entera.resource_service.repositories.BankRusRepository;
+import reactor.core.publisher.Flux;
 
 import java.util.Comparator;
-import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
 import java.util.function.Function;
@@ -37,43 +36,35 @@ public class BankServiceImpl implements BankService {
     //endregion
     //region Public
 
-    @Cacheable(ttl = 24 * 60 * 60, namePrefix = "bank")
     @Override
-    public List<BankRus> findAllRus() {
+    public Flux<BankRus> findAllRus() {
 
         return this.bankRusRepository.findAll();
     }
 
-    @Cacheable(ttl = 24 * 60 * 60, namePrefix = "bank")
     @Override
-    public List<BankKaz> findAllKaz() {
+    public Flux<BankKaz> findAllKaz() {
 
         return this.bankKazRepository.findAll();
     }
 
     @Override
-    public List<BankDto> find(String searchString, String countryCode) {
+    public Flux<BankDto> find(String searchString, String countryCode) {
 
-        final List<BankDto> banks;
+        return Flux.just(searchString, countryCode)
+            .filter(search -> search != null && search.length() > MIN_SEARCH_LENGTH)
+            .flatMap(search -> {
+                if (KAZ_COUNTRY_CODE.equals(countryCode)) {
 
-        if (searchString == null || searchString.length() < MIN_SEARCH_LENGTH) {
+                    return this.findBankKazList(search).map(BankDto::from);
+                } else {
 
-            banks = List.of();
-        } else if (KAZ_COUNTRY_CODE.equals(countryCode)) {
-
-            banks = this.findBankKazList(searchString)
-                .stream()
-                .map(BankDto::from)
-                .toList();
-        } else {
-
-            banks = this.findBankRusList(searchString)
-                .stream()
-                .map(BankDto::from)
-                .toList();
-        }
-
-        return banks;
+                    return this.findBankRusList(search).map(BankDto::from);
+                }
+            })
+            .switchIfEmpty(Flux.error(() -> new IllegalArgumentException(
+                "Search parameter must be at least %s characters long".formatted(MIN_SEARCH_LENGTH)
+            )));
     }
 
     //endregion
@@ -98,32 +89,28 @@ public class BankServiceImpl implements BankService {
     //endregion
     //region Private
 
-    private List<BankRus> findBankRusList(String searchString) {
+    private Flux<BankRus> findBankRusList(String searchString) {
 
         Predicate<BankRus> searchPredicate = createStringFieldSearchPredicate(BankRus::getName, searchString)
             .or((createStringFieldSearchPredicate(BankRus::getBic, searchString)))
             .or(createStringFieldSearchPredicate(BankRus::getAccount, searchString));
 
         return this.findAllRus()
-            .stream()
             .filter(searchPredicate)
-            .sorted(Comparator.comparing(BankRus::getBic))
-            .limit(MAX_SEARCH_RESULT_LENGTH)
-            .toList();
+            .sort(Comparator.comparing(BankRus::getBic))
+            .limitRate(MAX_SEARCH_RESULT_LENGTH);
     }
 
-    private List<BankKaz> findBankKazList(String searchString) {
+    private Flux<BankKaz> findBankKazList(String searchString) {
 
         Predicate<BankKaz> searchPredicate = createStringFieldSearchPredicate(BankKaz::getName, searchString)
             .or((createStringFieldSearchPredicate(BankKaz::getBic, searchString)))
             .or(createStringFieldSearchPredicate(BankKaz::getRnn, searchString));
 
         return this.findAllKaz()
-            .stream()
             .filter(searchPredicate)
-            .sorted(Comparator.comparing(BankKaz::getBic))
-            .limit(MAX_SEARCH_RESULT_LENGTH)
-            .toList();
+            .sort(Comparator.comparing(BankKaz::getBic))
+            .limitRate(MAX_SEARCH_RESULT_LENGTH);
     }
 
     //endregion

@@ -3,8 +3,7 @@ package pro.entera.resource_service.services;
 import pro.entera.resource_service.dtos.BankDto;
 import pro.entera.resource_service.models.BankKaz;
 import pro.entera.resource_service.models.BankRus;
-
-import java.util.List;
+import reactor.core.publisher.Flux;
 
 public interface BankService {
     //region Public
@@ -14,14 +13,14 @@ public interface BankService {
      *
      * @return Список всех российских банков.
      */
-    List<BankRus> findAllRus();
+    Flux<BankRus> findAllRus();
 
     /**
      * Возвращает все казахские банки.
      *
      * @return Список всех казахских банков.
      */
-    List<BankKaz> findAllKaz();
+    Flux<BankKaz> findAllKaz();
 
     /**
      * Выполняет поиск банков, которые подходят под поисковой запрос, и возвращает список подошедших банков.
@@ -30,11 +29,10 @@ public interface BankService {
      * Казахские банки конвертируются в российские.
      *
      * @param searchString Поисковой запрос.
-     * @param countryCode Код страны.
-     *
+     * @param countryCode  Код страны.
      * @return Список банков, которые подошли под поисковой запрос.
      */
-    List<BankDto> find(String searchString, String countryCode);
+    Flux<BankDto> find(String searchString, String countryCode);
     
     //endregion
 }

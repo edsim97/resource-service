@@ -1,13 +1,12 @@
 package pro.entera.resource_service.models;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.relational.core.mapping.Column;
+import org.springframework.data.relational.core.mapping.Table;
 
 /**
  * Валюта.
@@ -16,7 +15,6 @@ import lombok.Getter;
 @Getter
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Builder(toBuilder = true)
-@Entity
 @Table(name = "currency")
 public class Currency {
     //Fields
@@ -26,7 +24,7 @@ public class Currency {
      */
     @Id
     @EqualsAndHashCode.Include
-    @Column(name = "alpha_3_code")
+    @Column("alpha_3_code")
     private final String alpha3Code;
 
     /**

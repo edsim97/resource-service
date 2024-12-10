@@ -1,17 +1,16 @@
 package pro.entera.resource_service.repositories;
 
-import org.hibernate.NonUniqueResultException;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.repository.reactive.ReactiveCrudRepository;
 import pro.entera.resource_service.models.BankKaz;
+import reactor.core.publisher.Mono;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 /**
  * Репозиторий для доступа к модели {@link BankKaz}.
  */
-public interface BankKazRepository extends JpaRepository<BankKaz, UUID> {
+public interface BankKazRepository extends ReactiveCrudRepository<BankKaz, UUID> {
     //region Public
 
     /**
@@ -20,10 +19,8 @@ public interface BankKazRepository extends JpaRepository<BankKaz, UUID> {
      * @param rnn РНН банка Казахстана.
      *
      * @return Эталонный банк Казахстана.
-     *
-     * @throws NonUniqueResultException Если по РНН'у найдено болеее одного банка Казахстана.
      */
-    Optional<BankKaz> findByRnn(String rnn);
+    Mono<BankKaz> findByRnn(String rnn);
 
     /**
      * Выполняет поиск банка Казахстана по заданному БИК'у.</p>
@@ -31,10 +28,8 @@ public interface BankKazRepository extends JpaRepository<BankKaz, UUID> {
      * @param bic БИК банка Казахстана.
      *
      * @return Эталонный банк Казахстана.
-     *
-     * @throws NonUniqueResultException Если по БИК'у найдено болеее одного банка Казахстана.
      */
-    Optional<BankKaz> findByBic(String bic);
+    Mono<BankKaz> findByBic(String bic);
 
     /**
      * Поиск не аннулированных банков Казахстана в текущей базе.</p>

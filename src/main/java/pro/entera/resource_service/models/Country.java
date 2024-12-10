@@ -1,14 +1,13 @@
 package pro.entera.resource_service.models;
 
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.relational.core.mapping.Column;
+import org.springframework.data.relational.core.mapping.Table;
 
 /**
  * Страна по ОКСМ, находящаяся в нашем справочнике.
@@ -17,7 +16,6 @@ import lombok.Getter;
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Getter
 @Builder(toBuilder = true)
-@Entity
 @Table(name = "country")
 public class Country {
     //Fields
@@ -27,13 +25,13 @@ public class Country {
      */
     @Id
     @EqualsAndHashCode.Include
-    @Column(name = "alpha_3_code")
+    @Column("alpha_3_code")
     private final String alpha3Code;
 
     /**
      * Двухзначный (альфа-2) буквенный код страны, состоящий из букв латинского алфавита.
      */
-    @Column(name = "alpha_2_code")
+    @Column("alpha_2_code")
     private final String alpha2Code;
 
     /**

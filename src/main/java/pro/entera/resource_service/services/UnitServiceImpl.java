@@ -2,11 +2,11 @@ package pro.entera.resource_service.services;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import pro.entera.resource_service.aop.Cacheable;
 import pro.entera.resource_service.models.Unit;
 import pro.entera.resource_service.repositories.UnitRepository;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
-import java.util.List;
 import java.util.regex.Pattern;
 
 @AllArgsConstructor
@@ -30,27 +30,24 @@ public class UnitServiceImpl implements UnitService {
     //region Public
 
 
-    @Cacheable(ttl = 24 * 60 * 60, namePrefix = "unit")
     @Override
-    public List<Unit> findAll() {
+    public Flux<Unit> findAll() {
 
         return this.unitRepository.findAll();
     }
 
-    @Cacheable(ttl = 24 * 60 * 60, namePrefix = "unit")
     @Override
-    public Unit findByOkeiCode(String unitCode) {
+    public Mono<Unit> findByOkeiCode(String unitCode) {
 
         final String formattedOkeiCode = INSIGNIFICANT_ZEROES_IN_CODE.matcher(unitCode).replaceFirst("");
 
-        return this.unitRepository.findByCode(formattedOkeiCode).orElse(null);
+        return this.unitRepository.findByCode(formattedOkeiCode);
     }
 
-    @Cacheable(ttl = 24 * 60 * 60, namePrefix = "unit")
     @Override
-    public Unit findByName(String name) {
+    public Mono<Unit> findByName(String name) {
 
-        return this.unitRepository.findByName(name).orElse(null);
+        return this.unitRepository.findByName(name);
     }
 
     //endregion

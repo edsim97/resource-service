@@ -1,17 +1,17 @@
 package pro.entera.resource_service.services;
 
 import pro.entera.resource_service.dtos.CountryDto;
-
-import java.util.List;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 public interface CountryService {
     //region public
 
-    CountryDto findByAlpha3Code(String alpha3Code);
+    Mono<CountryDto> findByAlpha3Code(String alpha3Code);
 
-    CountryDto findByOksmCode(String code);
+    Mono<CountryDto> findByOksmCode(String code);
 
-    List<CountryDto> findAll();
+    Flux<CountryDto> findAll();
 
     //endregion
 }

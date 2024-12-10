@@ -6,11 +6,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import pro.entera.resource_service.aop.CacheAspect;
 import pro.entera.resource_service.dtos.CurrencyDto;
 import pro.entera.resource_service.services.CurrencyService;
-
-import java.util.List;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 @RequiredArgsConstructor
 @RestController
@@ -20,19 +19,17 @@ public class CurrencyController {
 
     private final CurrencyService currencyService;
 
-    private final CacheAspect cacheAspect;
-
     //endregion
     //region Public
 
     @GetMapping("/{alpha3code}")
-    public CurrencyDto get(@PathVariable("alpha3code") String alpha3Code) {
+    public Mono<CurrencyDto> get(@PathVariable("alpha3code") String alpha3Code) {
 
         return this.currencyService.findByAlpha3Code(alpha3Code);
     }
 
     @GetMapping
-    public List<CurrencyDto> getAll() {
+    public Flux<CurrencyDto> getAll() {
 
         return this.currencyService.findAll();
     }
@@ -40,7 +37,6 @@ public class CurrencyController {
     @DeleteMapping("/cache")
     public void clearCache() {
 
-        this.cacheAspect.clearCache("currency");
     }
 
     //endregion

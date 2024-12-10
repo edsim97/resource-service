@@ -1,12 +1,11 @@
 package pro.entera.resource_service.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.relational.core.mapping.Table;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -20,7 +19,6 @@ import java.util.stream.Stream;
 @Getter
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Builder
-@Entity
 @Table(name = "unit")
 public class Unit {
     //region Constants
