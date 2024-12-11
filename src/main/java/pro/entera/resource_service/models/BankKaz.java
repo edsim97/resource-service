@@ -1,11 +1,15 @@
 package pro.entera.resource_service.models;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.PersistenceCreator;
+import org.springframework.data.domain.Persistable;
 import org.springframework.data.relational.core.mapping.Table;
+import pro.entera.resource_service.dtos.banks.kaz.BankKazDto;
 
 import java.time.Instant;
 import java.util.Objects;
@@ -14,11 +18,12 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-@AllArgsConstructor
+@AllArgsConstructor(onConstructor_ = @PersistenceCreator)
 @Getter
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@Builder(toBuilder = true)
 @Table(name = "bank_kaz")
-public class BankKaz {
+public class BankKaz implements Persistable<UUID> {
     //region Public
 
     @Id
@@ -102,7 +107,43 @@ public class BankKaz {
     private final Instant annullingDate;
 
     //endregion
+    //region Static factories
+
+    /**
+     * <p>Статическая фабрика для получения сущности банка из DTO представления банка.</p>
+     *
+     * @param dto DTO представление банка.
+     *
+     * @return Новая сущность банка созданная из DTO представления банка.
+     */
+    public static BankKaz fromDTO(BankKazDto dto) {
+
+        return BankKaz.builder()
+            .id(UUID.randomUUID())
+            .bin(dto.bin())
+            .bic(dto.bic())
+            .category(dto.category())
+            .city(dto.city())
+            .country(dto.country())
+            .dsc(dto.dsc())
+            .house(dto.house())
+            .bankId(dto.id())
+            .kato(dto.kato())
+            .name(dto.name())
+            .zip(dto.zip())
+            .rnn(dto.rnn())
+            .street(dto.street())
+            .build();
+    }
+
+    //endregion
     //region Public
+
+    @Override
+    public boolean isNew() {
+
+        return this.createdDate == null;
+    }
 
     /**
      * Возвращает полный адрес банка.

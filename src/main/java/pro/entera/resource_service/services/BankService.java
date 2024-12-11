@@ -1,6 +1,7 @@
 package pro.entera.resource_service.services;
 
-import pro.entera.resource_service.dtos.BankDto;
+import pro.entera.resource_service.dtos.banks.BankDto;
+import pro.entera.resource_service.dtos.banks.rus.BankRusDto;
 import pro.entera.resource_service.models.BankKaz;
 import pro.entera.resource_service.models.BankRus;
 import reactor.core.publisher.Flux;
@@ -33,6 +34,10 @@ public interface BankService {
      * @return Список банков, которые подошли под поисковой запрос.
      */
     Flux<BankDto> find(String searchString, String countryCode);
-    
+
+    void fetchAndUpdateRus();
+
+    void fetchAndUpdateKaz();
+
     //endregion
 }

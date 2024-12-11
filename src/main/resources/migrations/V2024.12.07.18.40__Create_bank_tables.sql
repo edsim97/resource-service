@@ -17,8 +17,8 @@ CREATE TABLE IF NOT EXISTS "bank_rus" (
 CREATE TABLE IF NOT EXISTS "bank_kaz" (
 
     "id"             UUID NOT NULL,
-    "bic"            VARCHAR(9) NOT NULL,
-    "bin"            VARCHAR(12) NOT NULL,
+    "bic"            TEXT NOT NULL,
+    "bin"            TEXT NOT NULL,
     "category"       TEXT,
     "city"           TEXT,
     "country"        TEXT,

@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import pro.entera.resource_service.dtos.BankDto;
+import pro.entera.resource_service.dtos.banks.BankDto;
 import pro.entera.resource_service.services.BankService;
 import reactor.core.publisher.Flux;
 

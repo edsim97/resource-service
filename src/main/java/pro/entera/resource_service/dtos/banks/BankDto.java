@@ -1,4 +1,4 @@
-package pro.entera.resource_service.dtos;
+package pro.entera.resource_service.dtos.banks;
 
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
