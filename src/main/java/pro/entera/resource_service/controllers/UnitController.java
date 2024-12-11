@@ -29,10 +29,5 @@ public class UnitController {
         return this.unitService.findUnit(code, name);
     }
 
-    @DeleteMapping("/cache")
-    public void clearCache() {
-
-    }
-
     //endregion
 }

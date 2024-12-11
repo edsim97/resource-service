@@ -39,9 +39,9 @@ public class UnitServiceImpl implements UnitService {
     @Override
     public Mono<Unit> findByOkeiCode(String unitCode) {
 
-        final String formattedOkeiCode = INSIGNIFICANT_ZEROES_IN_CODE.matcher(unitCode).replaceFirst("");
+        //final String formattedOkeiCode = INSIGNIFICANT_ZEROES_IN_CODE.matcher(unitCode).replaceFirst("");
 
-        return this.unitRepository.findByCode(formattedOkeiCode);
+        return this.unitRepository.findByCode(unitCode);
     }
 
     @Override

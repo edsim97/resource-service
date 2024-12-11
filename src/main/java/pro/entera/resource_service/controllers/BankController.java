@@ -29,10 +29,5 @@ public class BankController {
         return this.bankService.find(search, countryCode);
     }
 
-    @DeleteMapping("/cache")
-    public void clearCache() {
-
-    }
-
     //endregion
 }

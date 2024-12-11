@@ -40,10 +40,5 @@ public class CountryController {
         return this.countryService.findAll();
     }
 
-    @DeleteMapping("/cache")
-    public void clearCache() {
-
-    }
-
     //endregion
 }

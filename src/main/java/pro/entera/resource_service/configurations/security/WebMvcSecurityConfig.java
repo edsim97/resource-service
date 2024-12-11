@@ -23,7 +23,7 @@ public class WebMvcSecurityConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
 
         registry.addInterceptor(SecurityInterceptor.build(config, "HeaderClient"))
-            .addPathPatterns("/api/v1/*")
-            .addPathPatterns("/*");
+            //.addPathPatterns("/api/v1/*")
+            .addPathPatterns("/**");
     }
 }

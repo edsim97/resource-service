@@ -11,8 +11,6 @@ import pro.entera.resource_service.models.Unit;
 public class UnitDto {
     //region Fields
 
-    private String id;
-
     /**
      * Код единицы измерения по классификатору ОКЕИ.
      */
@@ -34,7 +32,6 @@ public class UnitDto {
     public static UnitDto from(Unit unit) {
 
         return new UnitDto(
-            unit.getId().toString(),
             unit.getCode(),
             unit.getFullName(),
             unit.getName()

@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
-import java.util.UUID;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
@@ -36,13 +35,11 @@ public class Unit {
     //endregion
     //region Fields
 
-    @Id
-    @EqualsAndHashCode.Include
-    private UUID id;
-
     /**
      * Код единицы измерения по классификатору ОКЕИ.
      */
+    @Id
+    @EqualsAndHashCode.Include
     private String code;
 
     /**
