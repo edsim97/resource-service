@@ -32,6 +32,7 @@ public class Pac4jConfig {
      * @return Созданный конфиг.
      */
     @Bean
+    @SuppressWarnings("unused")
     public Config config() {
 
         final JwtAuthenticator authenticator = createJwtAuthenticator();

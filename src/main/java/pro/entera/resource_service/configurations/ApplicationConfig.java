@@ -9,6 +9,7 @@ import pro.entera.resource_service.configurations.security.JwtConfigPropertiesIm
  * Конфиг приложения.
  */
 @Configuration
+@SuppressWarnings("unused")
 @EnableConfigurationProperties({
     SchedulerConfigurationPropertiesImpl.class,
     JwtConfigPropertiesImpl.class,

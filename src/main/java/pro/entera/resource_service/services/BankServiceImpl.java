@@ -169,6 +169,7 @@ public class BankServiceImpl implements BankService {
     private static BankRus updateFromDto(BankRus bank, BankRusDto dto) {
 
         return bank.toBuilder()
+            .id(UUID.randomUUID())
             .bic(dto.bic())
             .name(dto.name())
             .zip(dto.zip())
@@ -271,7 +272,7 @@ public class BankServiceImpl implements BankService {
                 bank -> bankRusRepository.findByBic(bank.bic())
                     .flatMap(existingBank -> bankRusRepository.save(updateFromDto(existingBank, bank)))
                     .switchIfEmpty(
-                        bankRusRepository.save(updateFromDto(BankRus.builder().id(UUID.randomUUID()).build(), bank))
+                        bankRusRepository.save(BankRus.fromDto(bank))
                     )
             );
     }

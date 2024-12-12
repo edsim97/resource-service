@@ -7,19 +7,10 @@ import pro.entera.resource_service.repositories.UnitRepository;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import java.util.regex.Pattern;
-
 @AllArgsConstructor
 @Service
 public class UnitServiceImpl implements UnitService {
     // region Constants
-
-    /**
-     * Паттерн незначащих нулей в ОКЕИ коде.
-     *
-     * Например для кода 050 (квадратный миллиметр) первый ноль незначащий
-     */
-    private static final Pattern INSIGNIFICANT_ZEROES_IN_CODE = Pattern.compile("^0+");
 
     //endregion
     //region Fields
@@ -38,8 +29,6 @@ public class UnitServiceImpl implements UnitService {
 
     @Override
     public Mono<Unit> findByOkeiCode(String unitCode) {
-
-        //final String formattedOkeiCode = INSIGNIFICANT_ZEROES_IN_CODE.matcher(unitCode).replaceFirst("");
 
         return this.unitRepository.findByCode(unitCode);
     }

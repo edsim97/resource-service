@@ -24,79 +24,79 @@ public class KazBankXmlRow {
      * Индекс.
      */
     @XmlElement(name = "bic")
-    protected final String bic;
+    private String bic;
 
     /**
      * Тип населенного пункта.
      */
     @XmlElement(name = "bin")
-    protected final String bin;
+    private String bin;
 
     /**
      * Название населенного пункта.
      */
     @XmlElement(name = "category")
-    protected final String category;
+    private String category;
 
     /**
      * Адрес.
      */
     @XmlElement(name = "city")
-    protected final String city;
+    private String city;
 
     /**
      * Адрес.
      */
     @XmlElement(name = "country")
-    protected final String country;
+    private String country;
 
     /**
      * Адрес.
      */
     @XmlElement(name = "dsc")
-    protected final String dsc;
+    private String dsc;
 
     /**
      * Адрес.
      */
     @XmlElement(name = "house")
-    protected final String house;
+    private String house;
 
     /**
      * Адрес.
      */
     @XmlElement(name = "id")
-    protected final String id;
+    private String id;
 
     /**
      * Адрес.
      */
     @XmlElement(name = "kato")
-    protected final String kato;
+    private String kato;
 
     /**
      * Название банка.
      */
     @XmlElement(name = "name", required = true)
-    protected final String name;
+    private String name;
 
     /**
      * Адрес.
      */
     @XmlElement(name = "postidx")
-    protected final String postidx;
+    private String postidx;
 
     /**
      * Адрес.
      */
     @XmlElement(name = "rnn")
-    protected final String rnn;
+    private String rnn;
 
     /**
      * Адрес.
      */
     @XmlElement(name = "street")
-    protected final String street;
+    private String street;
 
     //endregion
 }
