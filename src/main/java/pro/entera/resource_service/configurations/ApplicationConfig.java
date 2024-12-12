@@ -5,6 +5,9 @@ import org.springframework.context.annotation.Configuration;
 import pro.entera.resource_service.configurations.scheduling.SchedulerConfigurationPropertiesImpl;
 import pro.entera.resource_service.configurations.security.JwtConfigPropertiesImpl;
 
+/**
+ * Конфиг приложения.
+ */
 @Configuration
 @EnableConfigurationProperties({
     SchedulerConfigurationPropertiesImpl.class,

@@ -10,7 +10,7 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlType;
 
 /**
- * <p>Модель представления информации о банке.</p>
+ * Модель представления информации о банке.
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ParticipantInfo", namespace = "urn:cbr-ru:ed:v2.0")
@@ -21,31 +21,31 @@ public class ParticipantInfoType {
     //region Fields
 
     /**
-     * <p>Название банка.</p>
+     * Название банка.
      */
     @XmlAttribute(name = "NameP", required = true)
     private String nameP;
 
     /**
-     * <p>Индекс.</p>
+     * Индекс.
      */
     @XmlAttribute(name = "Ind")
     private String ind;
 
     /**
-     * <p>Тип населенного пункта.</p>
+     * Тип населенного пункта.
      */
     @XmlAttribute(name = "Tnp")
     private String tnp;
 
     /**
-     * <p>Название населенного пункта.</p>
+     * Название населенного пункта.
      */
     @XmlAttribute(name = "Nnp")
     private String nnp;
 
     /**
-     * <p>Адрес.</p>
+     * Адрес.
      */
     @XmlAttribute(name = "Adr")
     private String adr;

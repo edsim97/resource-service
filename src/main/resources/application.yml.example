@@ -1,7 +1,7 @@
 spring:
   application:
     name: resource-service
-  datasource:
+  r2dbc:
     url: jdbc:postgresql://localhost:5432/resources
     username: postgres
     password: postgres
@@ -11,3 +11,19 @@ spring:
     password: postgres
     schemas: public
     locations: classpath:migrations
+scheduler:
+  updateBanksRusScheduleEnabled: true
+  updateBanksRusScheduleDelay: 30s
+  updateBanksKazScheduleEnabled: true
+  updateBanksKazScheduleDelay: 30s
+
+jwt:
+  hashSecret: REQUIRED_TO_FILL
+  encryptSecret: REQUIRED_TO_FILL
+  enteraTokenHeader: REQUIRED_TO_FILL
+  serverToServerSubject: REQUIRED_TO_FILL
+
+banks:
+  fetch-url:
+    rus: http://www.cbr.ru/Queries/XsltBlock/File/101478?fileId=0
+    kaz: https://ult.kgd.gov.kz/apps/services/KgdCustomDictionary/xml/bankreestr

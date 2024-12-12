@@ -12,7 +12,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import java.util.List;
 
 /**
- * <p>Модель списка xml БИК'ов банков Казахстана.</p>
+ * Модель списка xml БИК'ов банков Казахстана.
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name = "root")
@@ -23,7 +23,7 @@ public class KazBankXmlRoot {
     //region Fields
 
     /**
-     * <p>Список записей xml банков Казахстана.</p>
+     * Список записей xml банков Казахстана.
      */
     @XmlElement(name = "row")
     private final List<KazBankXmlRow> kazBankXmlRowList;

@@ -15,9 +15,9 @@ public class UnitServiceImpl implements UnitService {
     // region Constants
 
     /**
-     * <p>Паттерн незначащих нулей в ОКЕИ коде.</p>
+     * Паттерн незначащих нулей в ОКЕИ коде.
      *
-     * <p>Например для кода 050 (квадратный миллиметр) первый ноль незначащий</p>
+     * Например для кода 050 (квадратный миллиметр) первый ноль незначащий
      */
     private static final Pattern INSIGNIFICANT_ZEROES_IN_CODE = Pattern.compile("^0+");
 

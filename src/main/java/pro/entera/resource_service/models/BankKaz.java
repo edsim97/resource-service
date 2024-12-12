@@ -18,6 +18,9 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+/**
+ * Банк в Казахстане.
+ */
 @AllArgsConstructor(onConstructor_ = @PersistenceCreator)
 @Getter
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
@@ -110,7 +113,7 @@ public class BankKaz implements Persistable<UUID> {
     //region Static factories
 
     /**
-     * <p>Статическая фабрика для получения сущности банка из DTO представления банка.</p>
+     * Статическая фабрика для получения сущности банка из DTO представления банка.
      *
      * @param dto DTO представление банка.
      *

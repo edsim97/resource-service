@@ -12,14 +12,21 @@ import reactor.core.publisher.Mono;
 public interface UnitRepository extends ReactiveCrudRepository<Unit, String> {
     //region Public
 
+    /**
+     * Выполняет поиск единицы измерения по её краткому наименованию.
+     *
+     * @param name Краткое наименование единицы измерения.
+     *
+     * @return Единица измерения.
+     */
     Mono<Unit> findByName(String name);
 
     /**
-     * Возвращает страну в классификаторе ОКСМ по коду ОКСМ.
+     * Выполняет поиск единицы измерения по её коду в ОКЕИ.
      *
-     * @param code Код ОКСМ.
+     * @param code Код единицы измерения в ОКЕИ.
      *
-     * @return Страна в классификаторе ОКСМ.
+     * @return Единица измерения.
      */
     Mono<Unit> findByCode(String code);
 

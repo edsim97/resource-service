@@ -12,7 +12,7 @@ import java.util.List;
 
 
 /**
- * <p>Модель списка БИК'ов банков.</p>
+ * Модель списка БИК'ов банков.
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name = "ED807")
@@ -23,7 +23,7 @@ public class ED807 {
     //region Fields
 
     /**
-     * <p>Список записей БИК'ов.</p>
+     * Список записей БИК'ов.
      */
     @XmlElement(name = "BICDirectoryEntry")
     private List<BICDirectoryEntry> bicDirectoryEntry;

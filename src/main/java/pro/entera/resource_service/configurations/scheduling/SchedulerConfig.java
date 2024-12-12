@@ -9,12 +9,18 @@ import org.springframework.scheduling.config.ScheduledTaskRegistrar;
 
 import java.util.Set;
 
+/**
+ * Конфиг для запланированных задач.
+ */
 @AllArgsConstructor
 @Configuration
 @EnableScheduling
 public class SchedulerConfig implements SchedulingConfigurer {
     //region Fields
 
+    /**
+     * Набор запланированных задач.
+     */
     private final Set<ScheduledTask> tasks;
 
     //endregion

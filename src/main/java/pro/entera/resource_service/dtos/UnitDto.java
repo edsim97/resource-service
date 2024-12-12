@@ -5,6 +5,9 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import pro.entera.resource_service.models.Unit;
 
+/**
+ * DTO единицы измерения.
+ */
 @AllArgsConstructor
 @EqualsAndHashCode
 @Getter
@@ -29,6 +32,13 @@ public class UnitDto {
     //endregion
     //region Static factories
 
+    /**
+     * Статическая фабрика DTO единицы измерения.
+     *
+     * @param unit Модель единицы измерения.
+     *
+     * @return DTO единицы измерения.
+     */
     public static UnitDto from(Unit unit) {
 
         return new UnitDto(

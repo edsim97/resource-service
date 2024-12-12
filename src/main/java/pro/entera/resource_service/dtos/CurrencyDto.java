@@ -6,6 +6,9 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import pro.entera.resource_service.models.Currency;
 
+/**
+ * DTO валюты.
+ */
 @AllArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Getter
@@ -37,6 +40,13 @@ public class CurrencyDto {
     //endregion
     //region Static factories
 
+    /**
+     * Статическая фабрика DTO валюты.
+     *
+     * @param currency Модель валюты.
+     *
+     * @return DTO валюты.
+     */
     public static CurrencyDto from(Currency currency) {
 
         return new CurrencyDto(

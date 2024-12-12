@@ -11,19 +11,30 @@ import org.springframework.context.annotation.Import;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+/**
+ * Конфиг безопасности запросов к сервису.
+ */
 @AllArgsConstructor
 @Configuration
 @Import({ComponentConfig.class, AnnotationConfig.class})
 @ComponentScan(basePackages = "org.pac4j.springframework.web")
 public class WebMvcSecurityConfig implements WebMvcConfigurer {
+    //region Fields
 
+    /**
+     * Конфиг библиотеки pac4j.
+     */
     private final Config config;
+
+    //endregion
+    //region Public
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
 
         registry.addInterceptor(SecurityInterceptor.build(config, "HeaderClient"))
-            //.addPathPatterns("/api/v1/*")
             .addPathPatterns("/**");
     }
+
+    //endregion
 }

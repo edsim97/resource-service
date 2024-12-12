@@ -10,6 +10,9 @@ import pro.entera.resource_service.services.CurrencyService;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+/**
+ * Контроллер с API методами для работы с валютами.
+ */
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/v1/currency")
@@ -21,12 +24,24 @@ public class CurrencyController {
     //endregion
     //region Public
 
+    /**
+     * Возвращает валюту по её трёхзначному буквенному коду.
+     *
+     * @param alpha3Code Трёхзначный буквенный код валюты.
+     *
+     * @return Валюта.
+     */
     @GetMapping("/{alpha3code}")
     public Mono<CurrencyDto> get(@PathVariable("alpha3code") String alpha3Code) {
 
         return this.currencyService.findByAlpha3Code(alpha3Code);
     }
 
+    /**
+     * Возвращает все валюты.
+     *
+     * @return Список всех валют.
+     */
     @GetMapping
     public Flux<CurrencyDto> getAll() {
 

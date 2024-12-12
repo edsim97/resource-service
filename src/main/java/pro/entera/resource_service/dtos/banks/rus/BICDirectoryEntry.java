@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * <p>Преставление БИКа.</p>
+ * Преставление БИКа.
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @AllArgsConstructor
@@ -22,19 +22,19 @@ public class BICDirectoryEntry {
     //region Fields
 
     /**
-     * <p>Информация о банке.</p>
+     * Информация о банке.
      */
     @XmlElement(name = "ParticipantInfo", required = true, namespace = "urn:cbr-ru:ed:v2.0")
     private ParticipantInfoType participantInfo;
 
     /**
-     * <p>Записи коррю счетов.</p>
+     * Записи коррю счетов.
      */
     @XmlElement(name = "Accounts", namespace = "urn:cbr-ru:ed:v2.0")
     private List<AccountsType> accounts = new ArrayList<>();
 
     /**
-     * <p>БИК.</p>
+     * БИК.
      */
     @XmlAttribute(name = "BIC", required = true)
     private String bic;

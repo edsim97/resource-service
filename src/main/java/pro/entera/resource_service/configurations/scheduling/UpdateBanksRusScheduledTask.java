@@ -35,4 +35,6 @@ public class UpdateBanksRusScheduledTask implements ScheduledTask {
 
         this.bankService.fetchAndUpdateRus();
     }
+
+    //endregion
 }

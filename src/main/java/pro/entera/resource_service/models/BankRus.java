@@ -10,11 +10,14 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.PersistenceCreator;
 import org.springframework.data.domain.Persistable;
 import org.springframework.data.relational.core.mapping.Table;
-import pro.entera.resource_service.dtos.banks.rus.BICDirectoryEntry;
+import pro.entera.resource_service.dtos.banks.rus.BankRusDto;
 
 import java.time.Instant;
 import java.util.UUID;
 
+/**
+ * Банк в России.
+ */
 @AllArgsConstructor(onConstructor_ = @PersistenceCreator)
 @Getter
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
@@ -77,28 +80,22 @@ public class BankRus implements Persistable<UUID> {
     //region Static fabric
 
     /**
-     * <p>Статическая фабрика для получения сущности банка из записи БИК.</p>
+     * Статическая фабрика для получения сущности российского банка из его DTO.
      *
-     * @param entry Запись БИК.
+     * @param dto DTO российского банка.
      *
-     * @return DTO представление банка созданное из записи БИК.
+     * @return Модель российского банка.
      */
-    public static BankRus fromEntry(@NonNull BICDirectoryEntry entry) {
-
-        String account = null;
-
-        if (!entry.getAccounts().isEmpty()) {
-            account = entry.getAccounts().get(0).getAccount();
-        }
+    public static BankRus fromDto(@NonNull BankRusDto dto) {
 
         return BankRus.builder()
-            .bic(entry.getBic())
-            .name(entry.getParticipantInfo().getNameP())
-            .zip(entry.getParticipantInfo().getInd())
-            .settlementType(entry.getParticipantInfo().getTnp())
-            .settlementName(entry.getParticipantInfo().getNnp())
-            .address(entry.getParticipantInfo().getAdr())
-            .account(account)
+            .bic(dto.bic())
+            .name(dto.name())
+            .zip(dto.zip())
+            .settlementType(dto.settlementType())
+            .settlementName(dto.settlementName())
+            .address(dto.address())
+            .account(dto.account())
             .build();
     }
 

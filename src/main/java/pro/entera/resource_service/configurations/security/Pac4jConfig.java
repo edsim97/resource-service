@@ -12,23 +12,41 @@ import org.springframework.context.annotation.Configuration;
 
 import java.util.Base64;
 
+/**
+ * Класс конфигурации библиотеки pac4j.
+ */
 @RequiredArgsConstructor
 @Configuration
 public class Pac4jConfig {
+    //region Fields
 
     private final JwtConfigProperties jwtConfigProperties;
 
+    //endregion
+    //region Public
+
+    /**
+     * Создаёт конфиг библиотеки pac4j.
+     * В конфиг добавляется клиент для чтения хедеров запроса, проверяющий наличие хедера с токеном и валидность токена.
+     *
+     * @return Созданный конфиг.
+     */
     @Bean
     public Config config() {
 
-        final JwtAuthenticator authenticator = getJwtAuthenticator();
+        final JwtAuthenticator authenticator = createJwtAuthenticator();
         final HeaderClient jwtClient = new HeaderClient(jwtConfigProperties.getEnteraTokenHeader(), authenticator);
         final Clients clients = new Clients(jwtClient);
 
         return new Config(clients);
     }
 
-    private JwtAuthenticator getJwtAuthenticator() {
+    /**
+     * Создаёт JWT аутентификатор.
+     *
+     * @return JWT аутентификатор.
+     */
+    private JwtAuthenticator createJwtAuthenticator() {
 
         final SecretSignatureConfiguration signatureConfiguration = new SecretSignatureConfiguration(
             Base64.getDecoder().decode(jwtConfigProperties.getHashSecret())
@@ -42,4 +60,6 @@ public class Pac4jConfig {
 
         return authenticator;
     }
+
+    //endregion
 }

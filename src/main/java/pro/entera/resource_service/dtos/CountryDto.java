@@ -6,6 +6,9 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import pro.entera.resource_service.models.Country;
 
+/**
+ * DTO страны.
+ */
 @AllArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Getter
@@ -47,6 +50,13 @@ public class CountryDto {
     //endregion
     //region Static factories
 
+    /**
+     * Статическая фабрика DTO страны.
+     *
+     * @param country Модель страны.
+     *
+     * @return DTO страны.
+     */
     public static CountryDto from(Country country) {
 
         return new CountryDto(

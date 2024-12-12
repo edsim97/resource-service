@@ -43,10 +43,19 @@ import java.util.zip.ZipInputStream;
 public class BankServiceImpl implements BankService {
     //region Constants
 
+    /**
+     * Трёхбуквенный код страны для Казахстана.
+     */
     private static final String KAZ_COUNTRY_CODE = "KAZ";
 
+    /**
+     * Минимальная длина поисковой строки.
+     */
     private static final int MIN_SEARCH_LENGTH = 3;
 
+    /**
+     * Максимальная длина списка результатов поиска.
+     */
     private static final int MAX_SEARCH_RESULT_LENGTH = 20;
 
     //endregion
@@ -92,6 +101,7 @@ public class BankServiceImpl implements BankService {
             )));
     }
 
+    @Override
     public void fetchAndUpdateRus() {
 
         WebClient.builder()
@@ -100,14 +110,17 @@ public class BankServiceImpl implements BankService {
             .accept(MediaType.APPLICATION_OCTET_STREAM)
             .retrieve()
             .bodyToMono(DataBuffer.class)
-            .flatMap(this::processRusZipContent)
+            .flatMap(
+                zip -> Mono.fromCallable(() -> this.processRusZipContent(zip))
+                    .onErrorMap(e -> new RuntimeException("Error processing ZIP content", e))
+            )
             .map(ED807::getBicDirectoryEntry)
             .map(entries -> entries.stream().map(BankRusDto::fromEntry).toList())
-            .flux()
-            .flatMap(this::updateRusBanks)
+            .map(this::updateRusBanks)
             .subscribe();
     }
 
+    @Override
     public void fetchAndUpdateKaz() {
 
         WebClient.builder()
@@ -116,11 +129,13 @@ public class BankServiceImpl implements BankService {
             .accept(MediaType.APPLICATION_OCTET_STREAM)
             .retrieve()
             .bodyToMono(DataBuffer.class)
-            .flatMap(this::processKazXml)
+            .flatMap(
+                xml -> Mono.fromCallable(() -> this.processKazXml(xml))
+                    .onErrorMap(e -> new RuntimeException("Error processing XML content", e))
+            )
             .map(KazBankXmlRoot::getKazBankXmlRowList)
             .map(banks -> banks.stream().map(BankKazDto::fromEntry).toList())
-            .flux()
-            .flatMap(this::updateKazBanks)
+            .map(this::updateKazBanks)
             .subscribe();
     }
 
@@ -143,6 +158,14 @@ public class BankServiceImpl implements BankService {
             .contains(search.toLowerCase(Locale.ROOT));
     }
 
+    /**
+     * Обновляет российский банк из его DTO.
+     *
+     * @param bank Банк.
+     * @param dto DTO банка.
+     *
+     * @return Обновлённый банк.
+     */
     private static BankRus updateFromDto(BankRus bank, BankRusDto dto) {
 
         return bank.toBuilder()
@@ -156,6 +179,14 @@ public class BankServiceImpl implements BankService {
             .build();
     }
 
+    /**
+     * Обновляет казахский банк из его DTO.
+     *
+     * @param bank Банк.
+     * @param dto DTO банка.
+     *
+     * @return Обновлённый банк.
+     */
     private static BankKaz updateFromDto(BankKaz bank, BankKazDto dto) {
 
         return bank.toBuilder()
@@ -177,6 +208,14 @@ public class BankServiceImpl implements BankService {
     //endregion
     //region Private
 
+    /**
+     * Выполняет поиск российских банков по строке поиска.
+     * Банки ищутся по названию, БИК-у и кор. счёту.
+     *
+     * @param searchString Строка поиска.
+     *
+     * @return Список российских банков.
+     */
     private Flux<BankRus> findBankRusList(String searchString) {
 
         Predicate<BankRus> searchPredicate = createStringFieldSearchPredicate(BankRus::getName, searchString)
@@ -189,6 +228,14 @@ public class BankServiceImpl implements BankService {
             .limitRate(MAX_SEARCH_RESULT_LENGTH);
     }
 
+    /**
+     * Выполняет поиск казахских банков по строке поиска.
+     * Банки ищутся по названию, БИК-у и РНН-у.
+     *
+     * @param searchString Строка поиска.
+     *
+     * @return Список казахских банков.
+     */
     private Flux<BankKaz> findBankKazList(String searchString) {
 
         Predicate<BankKaz> searchPredicate = createStringFieldSearchPredicate(BankKaz::getName, searchString)
@@ -201,6 +248,16 @@ public class BankServiceImpl implements BankService {
             .limitRate(MAX_SEARCH_RESULT_LENGTH);
     }
 
+    /**
+     * Обновляет российские банки указанными в DTO данными.
+     * Выставляет значение в annullingDate банкам, которых нет в списке.
+     * Создаёт банки, которые есть в списке, но которых нет в БД.
+     * Обновляет банки, которые есть и в списке, и в БД.
+     *
+     * @param banks Список DTO банков.
+     *
+     * @return Флакс с обновлёнными банками.
+     */
     private Flux<BankRus> updateRusBanks(List<BankRusDto> banks) {
 
         Set<String> fetchedBicSet = banks.stream().map(BankRusDto::bic).collect(Collectors.toSet());
@@ -219,6 +276,16 @@ public class BankServiceImpl implements BankService {
             );
     }
 
+    /**
+     * Обновляет казахские банки указанными в DTO данными.
+     * Выставляет значение в annullingDate банкам, которых нет в списке.
+     * Создаёт банки, которые есть в списке, но которых нет в БД.
+     * Обновляет банки, которые есть и в списке, и в БД.
+     *
+     * @param banks Список DTO банков.
+     *
+     * @return Флакс с обновлёнными банками.
+     */
     private Flux<BankKaz> updateKazBanks(List<BankKazDto> banks) {
 
         Set<String> fetchedRnnSet = banks.stream().map(BankKazDto::rnn).collect(Collectors.toSet());
@@ -237,46 +304,59 @@ public class BankServiceImpl implements BankService {
             );
     }
 
-    private Mono<ED807> processRusZipContent(DataBuffer dataBuffer) {
+    /**
+     * Обрабатывает ZIP-архив, содержащий XML файл с данными всех банков в России.
+     *
+     * @param zip ZIP-архив.
+     *
+     * @return Список банков по модели справочника БИК (ED807).
+     */
+    private ED807 processRusZipContent(DataBuffer zip) {
 
-        return Mono.fromCallable(() -> {
-            byte[] bytes = new byte[dataBuffer.readableByteCount()];
-            dataBuffer.read(bytes);
-            DataBufferUtils.release(dataBuffer);
+        byte[] bytes = new byte[zip.readableByteCount()];
+        zip.read(bytes);
+        DataBufferUtils.release(zip);
 
-            try (ZipInputStream zis = new ZipInputStream(new ByteArrayInputStream(bytes))) {
-                ZipEntry entry = zis.getNextEntry();
-                if (entry == null) {
-                    throw new IOException("No entry found in ZIP");
-                }
+        try (ZipInputStream zis = new ZipInputStream(new ByteArrayInputStream(bytes))) {
 
-                JAXBContext jaxbContext = JAXBContext.newInstance(ED807.class);
-                Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
-                return (ED807) jaxbUnmarshaller.unmarshal(zis);
-
-            } catch (IOException | JAXBException e) {
-                throw new RuntimeException("Failed to process ZIP content", e);
+            ZipEntry entry = zis.getNextEntry();
+            if (entry == null) {
+                throw new IOException("No entry found in ZIP");
             }
-        }).onErrorMap(e -> new RuntimeException("Error processing ZIP content", e));
+
+            JAXBContext jaxbContext = JAXBContext.newInstance(ED807.class);
+            Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+            return (ED807) jaxbUnmarshaller.unmarshal(zis);
+
+        } catch (IOException | JAXBException e) {
+
+            throw new RuntimeException("Failed to process ZIP content", e);
+        }
     }
 
-    private Mono<KazBankXmlRoot> processKazXml(DataBuffer dataBuffer) {
+    /**
+     * Обрабатывает XML-файл, содержащий список всех банков в Казахстане.
+     *
+     * @param xml XML-файл со списком банков в Казахстане.
+     *
+     * @return Список банков в Казахстане.
+     */
+    private KazBankXmlRoot processKazXml(DataBuffer xml) {
 
-        return Mono.fromCallable(() -> {
-            byte[] bytes = new byte[dataBuffer.readableByteCount()];
-            dataBuffer.read(bytes);
-            DataBufferUtils.release(dataBuffer);
+        byte[] bytes = new byte[xml.readableByteCount()];
+        xml.read(bytes);
+        DataBufferUtils.release(xml);
 
-            try (InputStream bais = new ByteArrayInputStream(bytes)) {
+        try (InputStream bais = new ByteArrayInputStream(bytes)) {
 
-                JAXBContext jaxbContext = JAXBContext.newInstance(KazBankXmlRoot.class);
-                Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
-                return (KazBankXmlRoot) jaxbUnmarshaller.unmarshal(bais);
+            JAXBContext jaxbContext = JAXBContext.newInstance(KazBankXmlRoot.class);
+            Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+            return (KazBankXmlRoot) jaxbUnmarshaller.unmarshal(bais);
 
-            } catch (IOException | JAXBException e) {
-                throw new RuntimeException("Failed to process XML content", e);
-            }
-        }).onErrorMap(e -> new RuntimeException("Error processing XML content", e));
+        } catch (IOException | JAXBException e) {
+
+            throw new RuntimeException("Failed to process XML content", e);
+        }
     }
 
     //endregion

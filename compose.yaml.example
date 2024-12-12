@@ -11,9 +11,9 @@ services:
       - SPRING_FLYWAY_PASSWORD=postgres
       - SPRING_FLYWAY_SCHEMAS=public
       - SPRING_FLYWAY_LOCATIONS=classpath:migrations
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/resources
-      - SPRING_DATASOURCE_USERNAME=postgres
-      - SPRING_DATASOURCE_PASSWORD=postgres
+      - SPRING_R2DBC_URL=r2dbc:postgresql://postgres:5432/resources
+      - SPRING_R2DBC_USERNAME=postgres
+      - SPRING_R2DBC_PASSWORD=postgres
     depends_on:
       - postgres
       - rabbitmq

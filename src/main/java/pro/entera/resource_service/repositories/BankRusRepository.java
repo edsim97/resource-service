@@ -6,36 +6,31 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.util.Collection;
-import java.util.List;
 import java.util.UUID;
 
 /**
- * <p>Интерфейс репозитория для доступа к модели {@link BankRus}.</p>
+ * Репозиторий для доступа к модели {@link BankRus}.
  */
 public interface BankRusRepository extends R2dbcRepository<BankRus, UUID> {
     //region Public
 
     /**
-     * <p>Выполняет поиск банка по заданному БИК'у.</p>
+     * Выполняет поиск банка по заданному БИК'у.
      *
      * @param bic БИК банка.
      *
-     * @return Эталонный банк.
+     * @return Российский банк.
      */
     Mono<BankRus> findByBic(String bic);
 
-    Flux<BankRus> findByBicIn(List<String> bic);
-
-    Flux<BankRus> findByBicNotInAndAnnullingDateIsNull(Collection<String> bic);
-
     /**
-     * <p>Поиск не аннулированных банков в текущей базе.</p>
+     * Выполняет поиск банков без даты ануллирования, БИК которых есть в указанном списке.
      *
-     * <p>Не аннулированным считаеются те банки у которых нет даты аннулирования.</p>
+     * @param bic Список БИК-ов.
      *
-     * @return Список не аннулированных банков.
+     * @return Российский банк.
      */
-    Flux<BankRus> findByAnnullingDateIsNull();
+    Flux<BankRus> findByBicNotInAndAnnullingDateIsNull(Collection<String> bic);
 
     //endregion
 }

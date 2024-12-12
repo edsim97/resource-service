@@ -11,7 +11,7 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Объект корреспондентского счета.</p>
+ * Объект корреспондентского счета.
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "Accounts", namespace = "urn:cbr-ru:ed:v2.0")
@@ -22,7 +22,7 @@ public class AccountsType {
     //region Fields
 
     /**
-     * <p>Корреспондентский счет.</p>
+     * Корреспондентский счет.
      */
     @XmlAttribute(name = "Account", required = true)
     private String account;

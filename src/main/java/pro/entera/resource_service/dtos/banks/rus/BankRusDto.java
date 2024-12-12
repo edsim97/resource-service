@@ -3,13 +3,15 @@ package pro.entera.resource_service.dtos.banks.rus;
 import lombok.NonNull;
 
 /**
- * @param bic            <p>БИК банка.</p>
- * @param name           <p>Наименование банка.</p>
- * @param zip            <p>Почтовый индекс расположения банка.</p>
- * @param settlementType <p>Тип населённого пункта, в котором расположен банк.</p>
- * @param settlementName <p>Наименование населённого пункта, в котором расположен банк.</p>
- * @param address        <p>Адрес банка в населённом пункте, в котором расположен банк.</p>
- * @param account        <p>Корреспондентский счёт банка.</p>
+ * DTO российского банка.
+ *
+ * @param bic БИК банка.
+ * @param name Наименование банка.
+ * @param zip Почтовый индекс расположения банка.
+ * @param settlementType Тип населённого пункта, в котором расположен банк.
+ * @param settlementName Наименование населённого пункта, в котором расположен банк.
+ * @param address Адрес банка в населённом пункте, в котором расположен банк.
+ * @param account Корреспондентский счёт банка.
  */
 public record BankRusDto(
     String bic,
@@ -23,7 +25,7 @@ public record BankRusDto(
     //region Static factories
 
     /**
-     * <p>Статическая фабрика для получения сущности банка из записи БИК.</p>
+     * Статическая фабрика для получения сущности банка из записи БИК.
      *
      * @param entry Запись БИК.
      *

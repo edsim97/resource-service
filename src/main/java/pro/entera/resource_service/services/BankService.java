@@ -1,11 +1,13 @@
 package pro.entera.resource_service.services;
 
 import pro.entera.resource_service.dtos.banks.BankDto;
-import pro.entera.resource_service.dtos.banks.rus.BankRusDto;
 import pro.entera.resource_service.models.BankKaz;
 import pro.entera.resource_service.models.BankRus;
 import reactor.core.publisher.Flux;
 
+/**
+ * Сервис для работы с банками.
+ */
 public interface BankService {
     //region Public
 
@@ -35,8 +37,14 @@ public interface BankService {
      */
     Flux<BankDto> find(String searchString, String countryCode);
 
+    /**
+     * Загружает и обновляет российские банки.
+     */
     void fetchAndUpdateRus();
 
+    /**
+     * Загружает и обновляет казахские банки.
+     */
     void fetchAndUpdateKaz();
 
     //endregion

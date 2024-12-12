@@ -21,79 +21,79 @@ public class KazBankXmlRow {
     //region Fields
 
     /**
-     * <p>Индекс.</p>
+     * Индекс.
      */
     @XmlElement(name = "bic")
     protected final String bic;
 
     /**
-     * <p>Тип населенного пункта.</p>
+     * Тип населенного пункта.
      */
     @XmlElement(name = "bin")
     protected final String bin;
 
     /**
-     * <p>Название населенного пункта.</p>
+     * Название населенного пункта.
      */
     @XmlElement(name = "category")
     protected final String category;
 
     /**
-     * <p>Адрес.</p>
+     * Адрес.
      */
     @XmlElement(name = "city")
     protected final String city;
 
     /**
-     * <p>Адрес.</p>
+     * Адрес.
      */
     @XmlElement(name = "country")
     protected final String country;
 
     /**
-     * <p>Адрес.</p>
+     * Адрес.
      */
     @XmlElement(name = "dsc")
     protected final String dsc;
 
     /**
-     * <p>Адрес.</p>
+     * Адрес.
      */
     @XmlElement(name = "house")
     protected final String house;
 
     /**
-     * <p>Адрес.</p>
+     * Адрес.
      */
     @XmlElement(name = "id")
     protected final String id;
 
     /**
-     * <p>Адрес.</p>
+     * Адрес.
      */
     @XmlElement(name = "kato")
     protected final String kato;
 
     /**
-     * <p>Название банка.</p>
+     * Название банка.
      */
     @XmlElement(name = "name", required = true)
     protected final String name;
 
     /**
-     * <p>Адрес.</p>
+     * Адрес.
      */
     @XmlElement(name = "postidx")
     protected final String postidx;
 
     /**
-     * <p>Адрес.</p>
+     * Адрес.
      */
     @XmlElement(name = "rnn")
     protected final String rnn;
 
     /**
-     * <p>Адрес.</p>
+     * Адрес.
      */
     @XmlElement(name = "street")
     protected final String street;
